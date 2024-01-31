@@ -1,6 +1,8 @@
 #include "camera.h"
 #include "shader.h"
 
+#include <algorithm>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stb_image.h>
@@ -13,21 +15,29 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
+constexpr unsigned int screenWidth = 800;
+constexpr unsigned int screenHeight = 600;
 
 float lastFrame;
 float deltaTime;
+
+float yaw = -90.0f;
+float pitch = 0.0f;
+float lastX = screenWidth / 2.0f;
+float lastY = screenHeight / 2.0f;
+bool firstMouseInput = true;
 Camera camera{};
 
 int main()
 {
-    constexpr unsigned int gScreenWidth = 800;
-    constexpr unsigned int gScreenHeight = 600;
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(gScreenWidth, gScreenHeight, "OpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "OpenGL", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window\n";
@@ -36,6 +46,9 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouse_callback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -46,7 +59,7 @@ int main()
 
     Shader ourShader{"shader.vert", "shader.frag"};
 
-    float vertices[] = {
+    constexpr float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -186,7 +199,7 @@ int main()
         camera.updateView();
         ourShader.setMat4("view", camera.view);
 
-        glm::mat4 projection = glm::perspective(glm::radians(90.0f), static_cast<float>(gScreenWidth) / gScreenHeight, 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(90.0f), static_cast<float>(screenWidth) / screenHeight, 0.1f, 100.0f);
         const int modelLoc = glGetUniformLocation(ourShader.ID, "model");
         const int projectionLoc = glGetUniformLocation(ourShader.ID, "projection");
         glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
@@ -228,4 +241,29 @@ void processInput(GLFWwindow* window)
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    if (firstMouseInput)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouseInput = false;
+    }
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos;
+    lastX = xpos;
+    lastY = ypos;
+
+    const float sensitivity = 0.1f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    yaw += xoffset;
+    pitch += yoffset;
+
+    pitch = std::clamp(pitch, -89.0f, 89.0f);
+
+    camera.updateDirection(pitch, yaw);
 }
