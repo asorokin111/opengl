@@ -16,12 +16,17 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 constexpr unsigned int screenWidth = 800;
 constexpr unsigned int screenHeight = 600;
 
 float lastFrame;
 float deltaTime;
+
+float fov = 45.0f;
+constexpr float minFov = 1.0f;
+constexpr float maxFov = 90.0f;
 
 float yaw = -90.0f;
 float pitch = 0.0f;
@@ -49,6 +54,8 @@ int main()
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetCursorPosCallback(window, mouse_callback);
+
+    glfwSetScrollCallback(window, scroll_callback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -199,7 +206,7 @@ int main()
         camera.updateView();
         ourShader.setMat4("view", camera.view);
 
-        glm::mat4 projection = glm::perspective(glm::radians(90.0f), static_cast<float>(screenWidth) / screenHeight, 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(fov), static_cast<float>(screenWidth) / screenHeight, 0.1f, 100.0f);
         const int modelLoc = glGetUniformLocation(ourShader.ID, "model");
         const int projectionLoc = glGetUniformLocation(ourShader.ID, "projection");
         glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
@@ -266,4 +273,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     pitch = std::clamp(pitch, -89.0f, 89.0f);
 
     camera.updateDirection(pitch, yaw);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    fov -= static_cast<float>(yoffset);
+    fov = std::clamp(fov, minFov, maxFov);
 }
