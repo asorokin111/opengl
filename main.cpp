@@ -267,9 +267,9 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 
-    yaw += xoffset;
-    pitch += yoffset;
+    yaw = glm::mod((yaw + xoffset), 360.0f);
 
+    pitch += yoffset;
     pitch = std::clamp(pitch, -89.0f, 89.0f);
 
     camera.updateDirection(pitch, yaw);
