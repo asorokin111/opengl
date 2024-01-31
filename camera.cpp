@@ -2,21 +2,22 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-void Camera::moveCamera(Direction dir)
+void Camera::moveCamera(Direction dir, float deltaTime)
 {
+    const float speed = m_cameraSpeed * deltaTime;
     switch (dir)
     {
     case forwards:
-        m_cameraPos += m_cameraSpeed * m_cameraFront;
+        m_cameraPos += speed * m_cameraFront;
         break;
     case backwards:
-        m_cameraPos -= m_cameraSpeed * m_cameraFront;
+        m_cameraPos -= speed * m_cameraFront;
         break;
     case left:
-        m_cameraPos -= glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * m_cameraSpeed;
+        m_cameraPos -= glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * speed;
         break;
     case right:
-        m_cameraPos += glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * m_cameraSpeed;
+        m_cameraPos += glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * speed;
         break;
     }
 }

@@ -14,6 +14,8 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
+float lastFrame;
+float deltaTime;
 Camera camera{};
 
 int main()
@@ -166,6 +168,10 @@ int main()
     glfwSwapInterval(1);
     while (!glfwWindowShouldClose(window))
     {
+        const float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         processInput(window);
 
         glClearColor(0.0f, 0.1f, 0.3f, 1.0f);
@@ -210,13 +216,13 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.moveCamera(Camera::forwards);
+        camera.moveCamera(Camera::forwards, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.moveCamera(Camera::backwards);
+        camera.moveCamera(Camera::backwards, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.moveCamera(Camera::left);
+        camera.moveCamera(Camera::left, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.moveCamera(Camera::right);
+        camera.moveCamera(Camera::right, deltaTime);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

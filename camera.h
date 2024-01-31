@@ -11,10 +11,10 @@ public:
         right,
     };
     glm::mat4 view = glm::mat4(1.0f);
-    void moveCamera(Direction dir);
+    void moveCamera(Direction dir, float deltaTime);
     void updateView();
 private:
-    const float m_cameraSpeed = 0.05f;
+    const float m_cameraSpeed = 2.5f;
     glm::vec3 m_cameraPos = glm::vec3(0.0f, 0.0f,  3.0f);
     glm::vec3 m_cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 m_cameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
