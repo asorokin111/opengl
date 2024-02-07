@@ -1,5 +1,6 @@
+#ifdef CHAPTER_ONE
 #include "camera.h"
-#include "shader.h"
+#include "../shader.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -67,7 +68,7 @@ int main()
     }
     glEnable(GL_DEPTH_TEST);
 
-    Shader ourShader{"shader.vert", "shader.frag"};
+    Shader ourShader{"chapter1/shader.vert", "chapter1/shader.frag"};
 
     constexpr float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -283,3 +284,4 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
     fov -= static_cast<float>(yoffset);
     fov = std::clamp(fov, minFov, maxFov);
 }
+#endif
