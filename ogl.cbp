@@ -46,11 +46,16 @@
 		</Unit>
 		<Unit filename="camera.cpp" />
 		<Unit filename="camera.h" />
-		<Unit filename="main.cpp" />
+		<Unit filename="chapter1/ch1_main.cpp" />
+		<Unit filename="chapter1/shader.frag" />
+		<Unit filename="chapter1/shader.vert" />
+		<Unit filename="chapter2/ch2_main.cpp" />
+		<Unit filename="chapter2/lightcube.frag" />
+		<Unit filename="chapter2/lightcube.vert" />
+		<Unit filename="chapter2/shader.frag" />
+		<Unit filename="chapter2/shader.vert" />
 		<Unit filename="shader.cpp" />
-		<Unit filename="shader.frag" />
 		<Unit filename="shader.h" />
-		<Unit filename="shader.vert" />
 		<Unit filename="stb_image.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
