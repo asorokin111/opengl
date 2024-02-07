@@ -1,8 +1,6 @@
 #include "camera.h"
 #include "shader.h"
 
-#include <algorithm>
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stb_image.h>
@@ -11,6 +9,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <plog/Log.h>
+#include <plog/Initializers/RollingFileInitializer.h>
+
+#include <algorithm>
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -37,6 +39,7 @@ Camera camera{};
 
 int main()
 {
+    plog::init(plog::verbose, "logs/log.txt");
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -45,7 +48,7 @@ int main()
     GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "OpenGL", NULL, NULL);
     if (window == NULL)
     {
-        std::cout << "Failed to create GLFW window\n";
+        PLOG_FATAL << "Failed to create GLFW window";
         glfwTerminate();
         return -1;
     }
@@ -59,7 +62,7 @@ int main()
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout << "Failed to initialize GLAD\n";
+        PLOG_FATAL << "Failed to initialize GLAD";
         return -1;
     }
     glEnable(GL_DEPTH_TEST);
@@ -157,7 +160,7 @@ int main()
     }
     else
     {
-        std::cout << "Failed to load texture\n";
+        PLOG_ERROR << "Failed to load texture";
     }
     stbi_image_free(data);
     glGenTextures(1, &texture2);
@@ -177,7 +180,7 @@ int main()
     }
     else
     {
-        std::cout << "Failed to load texture\n";
+        PLOG_ERROR << "Failed to load texture\n";
     }
     stbi_image_free(data);
 

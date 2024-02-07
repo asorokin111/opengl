@@ -1,6 +1,10 @@
 #include "shader.h"
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+
+#include <plog/Log.h>
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -30,7 +34,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
     }
     catch(std::ifstream::failure& e)
     {
-        std::cerr << "Error: could not read shader files";
+        PLOG_ERROR << "Error: could not read shader files";
     }
     const char* vShaderCode = vertCode.c_str();
     const char* fShaderCode = fragCode.c_str();
