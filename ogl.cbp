@@ -44,6 +44,8 @@
 		<Unit filename="../glad/src/glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="camera.cpp" />
+		<Unit filename="camera.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="shader.cpp" />
 		<Unit filename="shader.frag" />
