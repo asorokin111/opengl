@@ -5,6 +5,7 @@
 
 void Camera::moveCamera(Direction dir, float deltaTime)
 {
+    if (m_lockedMovement) return;
     const float speed = m_cameraSpeed * deltaTime;
     switch (dir)
     {
@@ -21,6 +22,11 @@ void Camera::moveCamera(Direction dir, float deltaTime)
         m_cameraPos += glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * speed;
         break;
     }
+}
+
+void Camera::restrictMovement(bool restrict)
+{
+    m_lockedMovement = restrict;
 }
 
 void Camera::updateView()

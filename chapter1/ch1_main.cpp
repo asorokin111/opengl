@@ -1,5 +1,5 @@
 #ifdef CHAPTER_ONE
-#include "camera.h"
+#include "../camera.h"
 #include "../shader.h"
 
 #include <glad/glad.h>
