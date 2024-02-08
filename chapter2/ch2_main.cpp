@@ -1,4 +1,3 @@
-#define CHAPTER_TWO
 #ifdef CHAPTER_TWO
 #include "../camera.h"
 #include "../shader.h"
