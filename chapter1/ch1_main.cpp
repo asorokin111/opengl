@@ -169,16 +169,14 @@ int main()
         ourShader.setMat4("view", camera.view);
 
         glm::mat4 projection = glm::perspective(glm::radians(fov), static_cast<float>(screenWidth) / screenHeight, 0.1f, 100.0f);
-        const int modelLoc = glGetUniformLocation(ourShader.ID, "model");
-        const int projectionLoc = glGetUniformLocation(ourShader.ID, "projection");
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+        ourShader.setMat4("projection", projection);
         for (int i = 0; i < 10; ++i)
         {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             const float angle = glfwGetTime() * 50.0f;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            ourShader.setMat4("model", model);
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
