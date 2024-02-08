@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -164,6 +165,8 @@ int main()
 
         glm::mat4 model = glm::mat4(1.0f);
         lightingShader.setMat4("model", model);
+        glm::mat3 normalMatrix = glm::inverseTranspose(glm::mat3(model));
+        lightingShader.setMat3("normalMatrix", normalMatrix);
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
