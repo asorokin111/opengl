@@ -1,4 +1,5 @@
 #pragma once
+#include "light.h"
 #include "material.h"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -18,6 +19,8 @@ public:
     void setVec3(const std::string& name, const glm::vec3& value) const;
     void setMaterial(const std::string& name, const Material& mat) const;
     void setMaterial(const Material& mat) const;
+    void setLight(const std::string& name, const Light& light) const;
+    void setLight(const Light& light) const;
     void use() const;
     void del() const;
 };

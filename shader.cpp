@@ -1,3 +1,4 @@
+#include "light.h"
 #include "material.h"
 #include "shader.h"
 
@@ -114,8 +115,18 @@ void Shader::setMaterial(const std::string& name, const Material& mat) const
 // Uses the default name for the material uniform, which is "material"
 void Shader::setMaterial(const Material& mat) const
 {
-    setVec3("material.ambient", mat.ambient);
-    setVec3("material.diffuse", mat.diffuse);
-    setVec3("material.specular", mat.specular);
-    setFloat("material.shininess", mat.shininess);
+    setMaterial("material", mat);
+}
+
+void Shader::setLight(const std::string& name, const Light& light) const
+{
+    setVec3(name + ".position", light.position);
+    setVec3(name + ".ambient", light.ambient);
+    setVec3(name + ".diffuse", light.diffuse);
+    setVec3(name + ".specular", light.specular);
+}
+
+void Shader::setLight(const Light& light) const
+{
+    setLight("light", light);
 }

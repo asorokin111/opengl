@@ -138,15 +138,26 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    constexpr Material greenRubber{
+    constexpr Material greenRubber
+    {
     {0.0f, 0.05f, 0.0f},
     {0.4f, 0.5f, 0.4f},
     {0.04f, 0.7f, 0.04f},
-    10.0f};
+    10.0f
+    };
+
+    constexpr Light sceneLight
+    {
+        lightPos,
+        {1.5f, 1.5f, 1.5f},
+        {0.5f, 0.5f, 0.5f},
+        {1.0f, 1.0f, 1.0f}
+    };
 
     lightingShader.use();
     lightingShader.setVec3("objectColor", {1.0f, 1.0f, 1.0f});
     lightingShader.setMaterial(greenRubber);
+    lightingShader.setLight(sceneLight);
 
     glfwSwapInterval(1);
     while (!glfwWindowShouldClose(window))
@@ -162,8 +173,7 @@ int main()
 
 
         lightingShader.use();
-        lightingShader.setVec3("lightColor",  {1.0f, 1.0f, 1.0f});
-        lightingShader.setVec3("light", lightPos);
+        lightingShader.setVec3("light", sceneLight.position);
         //lightingShader.setVec3("viewPos", camera.getPosition());
 
 
