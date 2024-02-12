@@ -1,6 +1,7 @@
 #define CHAPTER_TWO
 #ifdef CHAPTER_TWO
 #include "../camera.h"
+#include "../material.h"
 #include "../shader.h"
 
 #include <glad/glad.h>
@@ -137,6 +138,16 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    constexpr Material greenRubber{
+    {0.0f, 0.05f, 0.0f},
+    {0.4f, 0.5f, 0.4f},
+    {0.04f, 0.7f, 0.04f},
+    10.0f};
+
+    lightingShader.use();
+    lightingShader.setVec3("objectColor", {1.0f, 1.0f, 1.0f});
+    lightingShader.setMaterial(greenRubber);
+
     glfwSwapInterval(1);
     while (!glfwWindowShouldClose(window))
     {
@@ -151,7 +162,6 @@ int main()
 
 
         lightingShader.use();
-        lightingShader.setVec3("objectColor", {0.0f, 0.5f, 0.7f});
         lightingShader.setVec3("lightColor",  {1.0f, 1.0f, 1.0f});
         lightingShader.setVec3("light", lightPos);
         //lightingShader.setVec3("viewPos", camera.getPosition());

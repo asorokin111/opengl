@@ -1,3 +1,4 @@
+#include "material.h"
 #include "shader.h"
 
 #include <glad/glad.h>
@@ -100,4 +101,21 @@ void Shader::setMat3(const std::string& name, const glm::mat3& value) const
 void Shader::setVec3(const std::string& name, const glm::vec3& value) const
 {
     glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
+}
+
+void Shader::setMaterial(const std::string& name, const Material& mat) const
+{
+    setVec3(name + ".ambient", mat.ambient);
+    setVec3(name + ".diffuse", mat.diffuse);
+    setVec3(name + ".specular", mat.specular);
+    setFloat(name + ".shininess", mat.shininess);
+}
+
+// Uses the default name for the material uniform, which is "material"
+void Shader::setMaterial(const Material& mat) const
+{
+    setVec3("material.ambient", mat.ambient);
+    setVec3("material.diffuse", mat.diffuse);
+    setVec3("material.specular", mat.specular);
+    setFloat("material.shininess", mat.shininess);
 }

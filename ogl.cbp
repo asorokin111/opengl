@@ -54,6 +54,7 @@
 		<Unit filename="chapter2/lightcube.vert" />
 		<Unit filename="chapter2/shader.frag" />
 		<Unit filename="chapter2/shader.vert" />
+		<Unit filename="material.h" />
 		<Unit filename="shader.cpp" />
 		<Unit filename="shader.h" />
 		<Unit filename="stb_image.cpp" />
