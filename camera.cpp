@@ -42,3 +42,8 @@ void Camera::updateDirection(float pitch, float yaw)
     direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     m_cameraFront = glm::normalize(direction);
 }
+
+glm::vec3 Camera::getPosition() const
+{
+    return m_cameraPos;
+}

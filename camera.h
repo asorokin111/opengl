@@ -16,6 +16,7 @@ public:
     void updateView();
     void updateDirection(float pitch, float yaw);
     void restrictMovement(bool restrict);
+    glm::vec3 getPosition() const;
 private:
     bool m_lockedMovement = false;
     const float m_cameraSpeed = 2.5f;

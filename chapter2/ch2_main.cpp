@@ -137,8 +137,6 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    lightingShader.use();
-
     glfwSwapInterval(1);
     while (!glfwWindowShouldClose(window))
     {
@@ -156,6 +154,7 @@ int main()
         lightingShader.setVec3("objectColor", {0.0f, 0.5f, 0.7f});
         lightingShader.setVec3("lightColor",  {1.0f, 1.0f, 1.0f});
         lightingShader.setVec3("lightPos", lightPos);
+        lightingShader.setVec3("viewPos", camera.getPosition());
 
 
         glm::mat4 projection = glm::perspective(glm::radians(camera.fov), static_cast<float>(screenWidth) / screenHeight, 0.1f, 100.0f);
