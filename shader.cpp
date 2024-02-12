@@ -1,6 +1,7 @@
 #include "light.h"
 #include "material.h"
 #include "shader.h"
+#include "textured_material.h"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -104,6 +105,11 @@ void Shader::setVec3(const std::string& name, const glm::vec3& value) const
     glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
 }
 
+void Shader::setVec3(const std::string& name, float x, float y, float z) const
+{
+    setVec3(name, glm::vec3{x, y, z});
+}
+
 void Shader::setMaterial(const std::string& name, const Material& mat) const
 {
     setVec3(name + ".ambient", mat.ambient);
@@ -114,6 +120,18 @@ void Shader::setMaterial(const std::string& name, const Material& mat) const
 
 // Uses the default name for the material uniform, which is "material"
 void Shader::setMaterial(const Material& mat) const
+{
+    setMaterial("material", mat);
+}
+
+void Shader::setMaterial(const std::string& name, const TexturedMaterial& mat) const
+{
+    setInt(name + ".diffuse", mat.diffuseId);
+    setInt(name + ".specular", mat.specularId);
+    setFloat(name + ".shininess", mat.shininess);
+}
+
+void Shader::setMaterial(const TexturedMaterial& mat) const
 {
     setMaterial("material", mat);
 }

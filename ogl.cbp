@@ -54,10 +54,14 @@
 		<Unit filename="chapter2/lightcube.vert" />
 		<Unit filename="chapter2/shader.frag" />
 		<Unit filename="chapter2/shader.vert" />
+		<Unit filename="light.h" />
 		<Unit filename="material.h" />
 		<Unit filename="shader.cpp" />
 		<Unit filename="shader.h" />
 		<Unit filename="stb_image.cpp" />
+		<Unit filename="texture.cpp" />
+		<Unit filename="texture.h" />
+		<Unit filename="textured_material.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
