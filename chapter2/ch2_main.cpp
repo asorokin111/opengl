@@ -138,7 +138,7 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    constexpr Material greenRubber
+    Material cubeMaterial
     {
     {0.0f, 0.05f, 0.0f},
     {0.4f, 0.5f, 0.4f},
@@ -146,7 +146,7 @@ int main()
     10.0f
     };
 
-    constexpr Light sceneLight
+    Light sceneLight
     {
         lightPos,
         {1.5f, 1.5f, 1.5f},
@@ -156,8 +156,6 @@ int main()
 
     lightingShader.use();
     lightingShader.setVec3("objectColor", {1.0f, 1.0f, 1.0f});
-    lightingShader.setMaterial(greenRubber);
-    lightingShader.setLight(sceneLight);
 
     glfwSwapInterval(1);
     while (!glfwWindowShouldClose(window))
@@ -171,11 +169,24 @@ int main()
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
         lightingShader.use();
         lightingShader.setVec3("light", sceneLight.position);
-        //lightingShader.setVec3("viewPos", camera.getPosition());
 
+        // Light settings
+        glm::vec3 lightColor;
+        lightColor.x = static_cast<float>(sin(glfwGetTime() * 2.0));
+        lightColor.y = static_cast<float>(sin(glfwGetTime() * 0.7));
+        lightColor.z = static_cast<float>(sin(glfwGetTime() * 1.3));
+        sceneLight.diffuse = lightColor * glm::vec3{0.5f};
+        sceneLight.ambient = lightColor * glm::vec3{0.2f};
+        lightingShader.setLight(sceneLight);
+
+        // Material settings
+        cubeMaterial.ambient = {1.0f, 0.5f, 0.0f};
+        cubeMaterial.diffuse = {1.0f, 0.5f, 0.0f};
+        cubeMaterial.specular = glm::vec3{0.5f};
+        cubeMaterial.shininess = 32.0f;
+        lightingShader.setMaterial(cubeMaterial);
 
         glm::mat4 projection = glm::perspective(glm::radians(camera.fov), static_cast<float>(screenWidth) / screenHeight, 0.1f, 100.0f);
         camera.updateView();
