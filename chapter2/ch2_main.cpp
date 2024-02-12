@@ -153,18 +153,18 @@ int main()
         lightingShader.use();
         lightingShader.setVec3("objectColor", {0.0f, 0.5f, 0.7f});
         lightingShader.setVec3("lightColor",  {1.0f, 1.0f, 1.0f});
-        lightingShader.setVec3("lightPos", lightPos);
-        lightingShader.setVec3("viewPos", camera.getPosition());
+        lightingShader.setVec3("light", lightPos);
+        //lightingShader.setVec3("viewPos", camera.getPosition());
 
 
         glm::mat4 projection = glm::perspective(glm::radians(camera.fov), static_cast<float>(screenWidth) / screenHeight, 0.1f, 100.0f);
         camera.updateView();
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", camera.view);
-
         glm::mat4 model = glm::mat4(1.0f);
         lightingShader.setMat4("model", model);
-        glm::mat3 normalMatrix = glm::inverseTranspose(glm::mat3(model));
+
+        glm::mat3 normalMatrix = glm::mat3(glm::inverseTranspose(camera.view * model));
         lightingShader.setMat3("normalMatrix", normalMatrix);
 
         glBindVertexArray(VAO);
