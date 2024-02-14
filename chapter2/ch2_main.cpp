@@ -180,7 +180,7 @@ int main()
         camera.updateView();
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", camera.view);
-        //sceneLight.direction = camera.view * sceneLight.direction;
+        sceneLight.direction = camera.view * lightDir;
         glm::mat4 model = glm::mat4(1.0f);
         lightingShader.setMat4("model", model);
 
