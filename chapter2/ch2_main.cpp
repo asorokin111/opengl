@@ -143,12 +143,17 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    constexpr glm::vec4 lightDir(-0.2f, -1.0f, -0.3f, 0.0f);
     Light sceneLight {
-    lightPos,
+    lightDir,
     {1.5f, 1.5f, 1.5f},
     {0.5f, 0.5f, 0.5f},
     {1.0f, 1.0f, 1.0f}
     };
+    // Light settings
+    glm::vec3 lightColor = glm::vec3{1.0f};
+    sceneLight.diffuse = lightColor * glm::vec3{0.5f};
+    sceneLight.ambient = lightColor * glm::vec3{0.2f};
 
     Texture diffuse{"images/container2.png", true, Texture::repeat, Texture::linear};
     Texture specular{"images/container2_specular.png", true, Texture::repeat, Texture::linear};
@@ -170,18 +175,12 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         lightingShader.use();
-        lightingShader.setVec3("light", sceneLight.position);
-
-        // Light settings
-        glm::vec3 lightColor = glm::vec3{1.0f};
-        sceneLight.diffuse = lightColor * glm::vec3{0.5f};
-        sceneLight.ambient = lightColor * glm::vec3{0.2f};
-        lightingShader.setLight(sceneLight);
 
         glm::mat4 projection = glm::perspective(glm::radians(camera.fov), static_cast<float>(screenWidth) / screenHeight, 0.1f, 100.0f);
         camera.updateView();
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", camera.view);
+        //sceneLight.direction = camera.view * sceneLight.direction;
         glm::mat4 model = glm::mat4(1.0f);
         lightingShader.setMat4("model", model);
 
@@ -192,10 +191,12 @@ int main()
         diffuse.bindTexture();
         specular.bindTexture();
 
+        lightingShader.setLight(sceneLight);
+
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        lightCubeShader.use();
+        /*lightCubeShader.use();
         lightCubeShader.setVec3("lightColor", lightColor);
         lightCubeShader.setMat4("projection", projection);
         lightCubeShader.setMat4("view", camera.view);
@@ -205,7 +206,7 @@ int main()
         lightCubeShader.setMat4("model", model);
 
         glBindVertexArray(lightCubeVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawArrays(GL_TRIANGLES, 0, 36);*/
 
         glfwSwapBuffers(window);
         glfwPollEvents();

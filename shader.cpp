@@ -148,7 +148,7 @@ void Shader::setMaterial(const TexturedMaterial& mat) const
 
 void Shader::setLight(const std::string& name, const Light& light) const
 {
-    setVec3(name + ".position", light.position);
+    setVec4(name + ".direction", light.direction);
     setVec3(name + ".ambient", light.ambient);
     setVec3(name + ".diffuse", light.diffuse);
     setVec3(name + ".specular", light.specular);
