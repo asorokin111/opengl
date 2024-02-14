@@ -19,6 +19,8 @@ public:
     void setMat3(const std::string& name, const glm::mat3& value) const;
     void setVec3(const std::string& name, const glm::vec3& value) const;
     void setVec3(const std::string& name, float x, float y, float z) const;
+    void setVec4(const std::string& name, const glm::vec4& value) const;
+    void setVec4(const std::string& name, float x, float y, float z, float w) const;
     void setMaterial(const std::string& name, const Material& mat) const;
     void setMaterial(const Material& mat) const;
     void setMaterial(const std::string& name, const TexturedMaterial& mat) const;
