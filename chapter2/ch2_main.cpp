@@ -143,16 +143,7 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    /*Material cubeMaterial
-    {
-    {0.0f, 0.05f, 0.0f},
-    {0.4f, 0.5f, 0.4f},
-    {0.04f, 0.7f, 0.04f},
-    10.0f
-    };*/
-
-    Light sceneLight
-    {
+    Light sceneLight {
     lightPos,
     {1.5f, 1.5f, 1.5f},
     {0.5f, 0.5f, 0.5f},

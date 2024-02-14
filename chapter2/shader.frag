@@ -25,17 +25,17 @@ in vec2 texCoords;
 
 void main()
 {
-    vec3 ambient = vec3(texture(material.diffuse, texCoords)) * light.ambient;
+    vec3 ambient = texture(material.diffuse, texCoords).rgb * light.ambient;
 
     vec3 norm = normalize(normal);
     vec3 lightDirection = normalize(lightPos - fragPos);
     float diff = max(dot(norm, lightDirection), 0.0);
-    vec3 diffuse = diff * vec3(texture(material.diffuse, texCoords)) * light.diffuse;
+    vec3 diffuse = diff * texture(material.diffuse, texCoords).rgb * light.diffuse;
 
     vec3 viewDirection = normalize(-fragPos);
     vec3 reflectDirection = reflect(-lightDirection, norm);
     float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.shininess);
-    vec3 specular = vec3(texture(material.specular, texCoords)) * spec * light.specular;
+    vec3 specular = texture(material.specular, texCoords).rgb * spec * light.specular;
 
     vec3 result = (ambient + diffuse + specular) * objectColor;
     FragColor = vec4(result, 1.0);
