@@ -23,6 +23,7 @@ bool Shader::checkShaderCompilationErrors(unsigned int shader) const
     glGetShaderInfoLog(shader, 512, NULL, infoLog);
     PLOG_ERROR << "Shader compilation failed. See verbose logs for details.";
     PLOG_VERBOSE << infoLog;
+    glDeleteShader(shader);
     return true;
 }
 
