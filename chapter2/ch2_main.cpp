@@ -157,10 +157,13 @@ int main()
 
     constexpr glm::vec4 lightDir(-0.2f, -1.0f, -0.3f, 0.0f);
     Light sceneLight {
-    lightDir,
+    lightPos,
     {1.5f, 1.5f, 1.5f},
     {0.5f, 0.5f, 0.5f},
-    {1.0f, 1.0f, 1.0f}
+    {1.0f, 1.0f, 1.0f},
+    1.0f,
+    0.09f,
+    0.032f
     };
     // Light settings
     glm::vec3 lightColor = glm::vec3{1.0f};
@@ -192,7 +195,7 @@ int main()
         camera.updateView();
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", camera.view);
-        sceneLight.direction = camera.view * lightDir;
+        sceneLight.position = camera.view * glm::vec4(lightPos.x, lightPos.y, lightPos.z, 1.0f);
 
         lightingShader.setMaterial(texturedMat);
         diffuse.bindTexture();
@@ -201,9 +204,10 @@ int main()
         lightingShader.setLight(sceneLight);
 
         glBindVertexArray(VAO);
+        glm::mat4 model = glm::mat4(1.0f);
         for(unsigned int i = 0; i < 10; i++)
         {
-            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
@@ -214,7 +218,7 @@ int main()
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
-        /*lightCubeShader.use();
+        lightCubeShader.use();
         lightCubeShader.setVec3("lightColor", lightColor);
         lightCubeShader.setMat4("projection", projection);
         lightCubeShader.setMat4("view", camera.view);
@@ -224,7 +228,7 @@ int main()
         lightCubeShader.setMat4("model", model);
 
         glBindVertexArray(lightCubeVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);*/
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

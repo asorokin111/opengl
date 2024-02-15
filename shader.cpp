@@ -148,10 +148,13 @@ void Shader::setMaterial(const TexturedMaterial& mat) const
 
 void Shader::setLight(const std::string& name, const Light& light) const
 {
-    setVec4(name + ".direction", light.direction);
+    setVec3(name + ".position", light.position);
     setVec3(name + ".ambient", light.ambient);
     setVec3(name + ".diffuse", light.diffuse);
     setVec3(name + ".specular", light.specular);
+    setFloat(name + ".constant", light.constant);
+    setFloat(name + ".linear", light.linear);
+    setFloat(name + ".quadratic", light.quadratic);
 }
 
 void Shader::setLight(const Light& light) const
