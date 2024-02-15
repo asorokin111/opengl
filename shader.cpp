@@ -149,6 +149,7 @@ void Shader::setMaterial(const TexturedMaterial& mat) const
 void Shader::setLight(const std::string& name, const Light& light) const
 {
     setFloat(name + ".cutoff", light.cutoff);
+    setFloat(name + ".outerCutoff", light.outerCutoff);
     setVec3(name + ".ambient", light.ambient);
     setVec3(name + ".diffuse", light.diffuse);
     setVec3(name + ".specular", light.specular);

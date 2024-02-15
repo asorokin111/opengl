@@ -3,6 +3,7 @@
 struct Light
 {
     float cutoff;
+    float outerCutoff;
     glm::vec3 ambient;
     glm::vec3 diffuse;
     glm::vec3 specular;

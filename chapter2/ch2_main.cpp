@@ -158,6 +158,7 @@ int main()
     constexpr glm::vec4 lightDir(-0.2f, -1.0f, -0.3f, 0.0f);
     Light sceneLight {
     glm::cos(glm::radians(12.5f)),
+    glm::cos(glm::radians(17.5f)),
     {1.5f, 1.5f, 1.5f},
     {0.5f, 0.5f, 0.5f},
     {1.0f, 1.0f, 1.0f},
@@ -175,7 +176,6 @@ int main()
     TexturedMaterial texturedMat{diffuse.id, specular.id, 32.0f};
 
     lightingShader.use();
-    lightingShader.setVec3("objectColor", {1.0f, 1.0f, 1.0f});
 
     glfwSwapInterval(1);
     while (!glfwWindowShouldClose(window))
