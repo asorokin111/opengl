@@ -54,10 +54,13 @@
 		<Unit filename="chapter2/lightcube.vert" />
 		<Unit filename="chapter2/shader.frag" />
 		<Unit filename="chapter2/shader.vert" />
+		<Unit filename="directional_light.h" />
 		<Unit filename="light.h" />
 		<Unit filename="material.h" />
+		<Unit filename="point_light.h" />
 		<Unit filename="shader.cpp" />
 		<Unit filename="shader.h" />
+		<Unit filename="spot_light.h" />
 		<Unit filename="stb_image.cpp" />
 		<Unit filename="texture.cpp" />
 		<Unit filename="texture.h" />
