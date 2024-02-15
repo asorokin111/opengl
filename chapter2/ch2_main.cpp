@@ -159,23 +159,42 @@ int main()
     Light sceneLight {
     glm::cos(glm::radians(12.5f)),
     glm::cos(glm::radians(17.5f)),
-    {1.5f, 1.5f, 1.5f},
+    {0.2f, 0.2f, 0.2f},
     {0.5f, 0.5f, 0.5f},
     {1.0f, 1.0f, 1.0f},
     1.0f,
     0.09f,
     0.032f
     };
-    // Light settings
-    glm::vec3 lightColor = glm::vec3{1.0f};
-    sceneLight.diffuse = lightColor * glm::vec3{0.5f};
-    sceneLight.ambient = lightColor * glm::vec3{0.2f};
+
+    constexpr glm::vec3 pointLightPositions[] = {
+	glm::vec3( 0.7f,  0.2f,  2.0f),
+	glm::vec3( 2.3f, -3.3f, -4.0f),
+	glm::vec3(-4.0f,  2.0f, -12.0f),
+	glm::vec3( 0.0f,  0.0f, -3.0f)
+    };
 
     Texture diffuse{"images/container2.png", true, Texture::repeat, Texture::linear};
     Texture specular{"images/container2_specular.png", true, Texture::repeat, Texture::linear};
     TexturedMaterial texturedMat{diffuse.id, specular.id, 32.0f};
 
     lightingShader.use();
+
+    lightingShader.setVec3("directionalLight.ambient", sceneLight.ambient);
+    lightingShader.setVec3("directionalLight.diffuse", sceneLight.diffuse);
+    lightingShader.setVec3("directionalLight.specular", sceneLight.specular);
+
+    for (int i = 0; i < 4; ++i)
+    {
+        const std::string current = "pointLights[" + i + ']';
+        lightingShader.setVec3(current + ".position", pointLightPositions[i]);
+        lightingShader.setFloat(current + ".constant", 1.0f);
+        lightingShader.setFloat(current + ".linear", 0.09f);
+        lightingShader.setFloat(current + ".quadratic", 0.032f);
+        lightingShader.setVec3(current + ".ambient", sceneLight.ambient);
+        lightingShader.setVec3(current + ".diffuse", sceneLight.diffuse);
+        lightingShader.setVec3(current + ".specular", sceneLight.specular);
+    }
 
     glfwSwapInterval(1);
     while (!glfwWindowShouldClose(window))
@@ -195,13 +214,12 @@ int main()
         camera.updateView();
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", camera.view);
+        lightingShader.setVec3("directionalLight.direction", camera.view * lightDir);
         //sceneLight.position = camera.view * glm::vec4(lightPos.x, lightPos.y, lightPos.z, 1.0f);
 
         lightingShader.setMaterial(texturedMat);
         diffuse.bindTexture();
         specular.bindTexture();
-
-        lightingShader.setLight(sceneLight);
 
         glBindVertexArray(VAO);
         glm::mat4 model = glm::mat4(1.0f);
