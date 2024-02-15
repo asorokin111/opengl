@@ -187,7 +187,7 @@ int main()
     for (int i = 0; i < 4; ++i)
     {
         const std::string current = "pointLights[" + i + ']';
-        lightingShader.setVec3(current + ".position", pointLightPositions[i]);
+        //lightingShader.setVec3(current + ".position", pointLightPositions[i]);
         lightingShader.setFloat(current + ".constant", 1.0f);
         lightingShader.setFloat(current + ".linear", 0.09f);
         lightingShader.setFloat(current + ".quadratic", 0.032f);
@@ -215,6 +215,12 @@ int main()
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", camera.view);
         lightingShader.setVec3("directionalLight.direction", camera.view * lightDir);
+        for (int i = 0; i < 4; ++i)
+        {
+            const std::string current = "pointLights[" + std::to_string(i) + "].position";
+            const glm::vec4 tmpPos(pointLightPositions[i].x, pointLightPositions[i].y, pointLightPositions[i].z, 1.0f);
+            lightingShader.setVec3(current, camera.view * tmpPos);
+        }
         //sceneLight.position = camera.view * glm::vec4(lightPos.x, lightPos.y, lightPos.z, 1.0f);
 
         lightingShader.setMaterial(texturedMat);
